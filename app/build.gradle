@@ -1,0 +1,99 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        // Plugin para generar reportes Serenity en formato single page HTML (versión 4.2.0)
+        classpath "net.serenity-bdd:serenity-single-page-report:4.2.0"
+    }
+}
+
+plugins {
+    // Plugin oficial de Serenity para Gradle (versión 4.1.3)
+    id "net.serenity-bdd.serenity-gradle-plugin" version "4.1.3"
+    
+    // Plugin Java estándar para compilación y ejecución de código Java
+    id 'java'
+}
+
+group 'io.petstore.swagger'   // Identificador del grupo para artefactos
+version '1.0-SNAPSHOT'         // Versión del proyecto
+
+java {
+    // Versión de Java usada para compilar y ejecutar el proyecto (Java 11)
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+tasks.withType(JavaCompile) {
+    // Codificación UTF-8 para evitar problemas con caracteres especiales en el código fuente
+    options.encoding = "UTF-8"
+}
+
+repositories {
+    // Repositorio Maven Central para descargar las dependencias
+    mavenCentral()
+}
+
+ext {
+    // Variables con versiones específicas para las librerías de Serenity
+    serenityCore           = "3.7.1"
+    serenityJunit5         = "3.3.2"
+    serenityCucumber       = "3.7.1"
+    serenityScreenplayRest = "3.7.1"
+}
+
+dependencies {
+    // Dependencia principal del core de Serenity BDD
+    implementation "net.serenity-bdd:serenity-core:${serenityCore}"
+    
+    // Integración de Serenity con JUnit 5 para ejecutar tests
+    implementation "net.serenity-bdd:serenity-junit5:${serenityJunit5}"
+    
+    // Integración con Cucumber para BDD usando Serenity
+    implementation "net.serenity-bdd:serenity-cucumber:${serenityCucumber}"
+    
+    // Librería para pruebas REST usando el patrón Screenplay con Serenity
+    implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityScreenplayRest}"
+
+    // Apache POI para manipulación de archivos Excel (.xls y .xlsx)
+    implementation 'org.apache.poi:poi:5.3.0'
+    implementation 'org.apache.poi:poi-ooxml:5.3.0'
+
+    // Implementación simple para logging con SLF4J (facilita salida de logs)
+    implementation 'org.slf4j:slf4j-simple:2.0.13'
+    
+    // Log4j core, otro framework de logging para proyectos que requieran más funcionalidades
+    implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
+
+    // Librería para hacer testing de servicios REST de forma sencilla
+    implementation 'io.rest-assured:rest-assured:5.5.5'
+
+    // Librería para hacer aserciones avanzadas y legibles en tests
+    implementation 'org.assertj:assertj-core:3.27.3'
+}
+
+test {
+    // Configura Gradle para ejecutar tests usando JUnit Platform (compatible con JUnit 5)
+    useJUnitPlatform()
+}
+
+serenity {
+    // Paquete raíz donde se ubican las clases runner de Serenity para detectar tests
+    testRoot = "io.petstore.swagger"
+
+    // Carpeta base donde están los archivos feature de Cucumber (BDD)
+    requirementsBaseDir = ["src/test/resources/features/"]
+
+    // Tipo de reporte que se generará, aquí un reporte HTML de una sola página
+    reports = ["single-page-html"]
+}
+
+// Permite que la ejecución de Gradle continúe aunque alguna tarea (test) falle
+gradle.startParameter.continueOnFailure = true
+
+// Define las tareas que se ejecutarán por defecto al correr Gradle sin argumentos
+defaultTasks 'clean', 'test', 'aggregate'
+
+// Indica que la tarea 'aggregate' (que genera reportes consolidados) se ejecute luego de finalizar las pruebas
+test.finalizedBy(aggregate)
