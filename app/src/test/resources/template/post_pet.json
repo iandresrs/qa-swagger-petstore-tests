@@ -1,0 +1,8 @@
+{
+  "id": "${id}",
+  "category": "${category}",
+  "name": "${name}",
+  "photoUrls": "${photoUrls}",
+  "tags": "${tags}",
+  "status": "${status}"
+}

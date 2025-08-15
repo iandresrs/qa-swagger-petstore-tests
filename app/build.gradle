@@ -48,7 +48,7 @@ dependencies {
     implementation "net.serenity-bdd:serenity-core:${serenityCore}"
     
     // Integración de Serenity con JUnit 5 para ejecutar tests
-    implementation "net.serenity-bdd:serenity-junit5:${serenityJunit5}"
+    implementation 'net.serenity-bdd:serenity-junit5:3.3.2'
     
     // Integración con Cucumber para BDD usando Serenity
     implementation "net.serenity-bdd:serenity-cucumber:${serenityCucumber}"
