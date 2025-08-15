@@ -39,7 +39,7 @@ public class PostNewPetTask implements Task {
         actor.remember(Constant.EXPECTED_PET_NAME_KEY.getValue(), data.getDataPostPetExcel().get(pet).getName());
     }
 
-    public static Map<String, Object> contentTypeHeader() {
+    private static Map<String, Object> contentTypeHeader() {
         return Map.of(
                 Constant.CONTENT_TYPE_NAME.getValue(),
                 Constant.CONTENT_TYPE_VALUE.getValue());
