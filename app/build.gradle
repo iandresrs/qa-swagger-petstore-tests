@@ -3,97 +3,104 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // Plugin para generar reportes Serenity en formato single page HTML (versión 4.2.0)
+        // Plugin to generate Serenity reports in single-page HTML format (version 4.2.0)
         classpath "net.serenity-bdd:serenity-single-page-report:4.2.0"
     }
 }
 
 plugins {
-    // Plugin oficial de Serenity para Gradle (versión 4.1.3)
+    // Official Serenity plugin for Gradle (version 4.1.3)
     id "net.serenity-bdd.serenity-gradle-plugin" version "4.1.3"
     
-    // Plugin Java estándar para compilación y ejecución de código Java
+    // Standard Java plugin for compiling and running Java code
     id 'java'
 }
 
-group 'io.petstore.swagger'   // Identificador del grupo para artefactos
-version '1.0-SNAPSHOT'         // Versión del proyecto
+group 'io.petstore.swagger'   // Group identifier for artifacts
+version '1.0-SNAPSHOT'        // Project version
 
 java {
-    // Versión de Java usada para compilar y ejecutar el proyecto (Java 11)
+    // Java version used to compile and run the project (Java 11)
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
 
 tasks.withType(JavaCompile) {
-    // Codificación UTF-8 para evitar problemas con caracteres especiales en el código fuente
+    // UTF-8 encoding to avoid issues with special characters in the source code
     options.encoding = "UTF-8"
 }
 
 repositories {
-    // Repositorio Maven Central para descargar las dependencias
+    // Maven Central repository to download dependencies
     mavenCentral()
 }
 
 ext {
-    // Variables con versiones específicas para las librerías de Serenity
+    // Variables holding specific versions for Serenity libraries
     serenityCore           = "3.7.1"
     serenityJunit5         = "3.3.2"
     serenityCucumber       = "3.7.1"
     serenityScreenplayRest = "3.7.1"
+    lombokVersion = '1.18.34'
 }
 
 dependencies {
-    // Dependencia principal del core de Serenity BDD
+    // Main Serenity BDD core dependency
     implementation "net.serenity-bdd:serenity-core:${serenityCore}"
     
-    // Integración de Serenity con JUnit 5 para ejecutar tests
+    // Serenity integration with JUnit 5 for running tests
     implementation 'net.serenity-bdd:serenity-junit5:3.3.2'
     
-    // Integración con Cucumber para BDD usando Serenity
+    // Serenity integration with Cucumber for BDD
     implementation "net.serenity-bdd:serenity-cucumber:${serenityCucumber}"
     
-    // Librería para pruebas REST usando el patrón Screenplay con Serenity
+    // Library for REST testing using the Screenplay pattern with Serenity
     implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityScreenplayRest}"
 
-    // Apache POI para manipulación de archivos Excel (.xls y .xlsx)
+    // Apache POI for handling Excel files (.xls and .xlsx)
     implementation 'org.apache.poi:poi:5.3.0'
     implementation 'org.apache.poi:poi-ooxml:5.3.0'
 
-    // Implementación simple para logging con SLF4J (facilita salida de logs)
+    // Simple logging implementation for SLF4J
     implementation 'org.slf4j:slf4j-simple:2.0.13'
     
-    // Log4j core, otro framework de logging para proyectos que requieran más funcionalidades
+    // Log4j core, another logging framework for projects needing advanced features
     implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
 
-    // Librería para hacer testing de servicios REST de forma sencilla
+    // Library for easily testing REST services
     implementation 'io.rest-assured:rest-assured:5.5.5'
 
-    // Librería para hacer aserciones avanzadas y legibles en tests
+    // Library for fluent and advanced assertions in tests
     implementation 'org.assertj:assertj-core:3.27.3'
+
+    // Lombok - Reduces boilerplate code like getters, setters, and constructors
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testImplementation "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }
 
 test {
-    // Configura Gradle para ejecutar tests usando JUnit Platform (compatible con JUnit 5)
+    // Configure Gradle to run tests using JUnit Platform (compatible with JUnit 5)
     useJUnitPlatform()
 }
 
 serenity {
-    // Paquete raíz donde se ubican las clases runner de Serenity para detectar tests
+    // Root package where Serenity runner classes are located for test discovery
     testRoot = "io.petstore.swagger"
 
-    // Carpeta base donde están los archivos feature de Cucumber (BDD)
+    // Base folder containing Cucumber feature files (BDD)
     requirementsBaseDir = ["src/test/resources/features/"]
 
-    // Tipo de reporte que se generará, aquí un reporte HTML de una sola página
+    // Type of report to generate, here a single-page HTML report
     reports = ["single-page-html"]
 }
 
-// Permite que la ejecución de Gradle continúe aunque alguna tarea (test) falle
+// Allows Gradle to continue execution even if a task (test) fails
 gradle.startParameter.continueOnFailure = true
 
-// Define las tareas que se ejecutarán por defecto al correr Gradle sin argumentos
+// Defines default tasks to run when Gradle is executed without arguments
 defaultTasks 'clean', 'test', 'aggregate'
 
-// Indica que la tarea 'aggregate' (que genera reportes consolidados) se ejecute luego de finalizar las pruebas
+// Ensures that the 'aggregate' task (which generates consolidated reports) runs after tests finish
 test.finalizedBy(aggregate)

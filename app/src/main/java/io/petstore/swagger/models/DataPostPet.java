@@ -2,9 +2,13 @@ package io.petstore.swagger.models;
 
 import io.petstore.swagger.models.buildPosPet.Category;
 import io.petstore.swagger.models.buildPosPet.Tag;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.List;
 
+@AllArgsConstructor
+@Getter
 public class DataPostPet {
 
     private String scenario;
@@ -15,47 +19,4 @@ public class DataPostPet {
     private List<Tag> tags;
     private String status;
 
-    
-
-    public DataPostPet() {
-    }
-
-    public DataPostPet(String scenario, Long id, Category category, String name, List<String> photoUrls, List<Tag> tags, String status) {
-        this.scenario = scenario;
-        this.id = id;
-        this.category = category;
-        this.name = name;
-        this.photoUrls = photoUrls;
-        this.tags = tags;
-        this.status = status;
-    }
-
-    public String getScenario() {
-        return scenario;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getPhotoUrls() {
-        return photoUrls;
-    }
-
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-    
 }

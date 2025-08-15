@@ -9,7 +9,7 @@ import io.cucumber.java.en.When;
 import io.petstore.swagger.models.HaspDataPostPetExcel;
 import io.petstore.swagger.questions.ValidatePetName;
 import io.petstore.swagger.questions.ValidateStatusCode;
-import io.petstore.swagger.tasks.ConsumptionCreatePetTask;
+import io.petstore.swagger.tasks.PostNewPetTask;
 import io.petstore.swagger.utils.ReadConfiguration;
 import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
 
@@ -28,7 +28,7 @@ public class PostPetStepDefinition {
     @When("i carry out the validation of the pet {string}")
     public void iCarryOutTheValidationOfThePet(String pet) {
         theActorInTheSpotlight().attemptsTo(
-                ConsumptionCreatePetTask.withData(data, pet));
+                PostNewPetTask.withData(data, pet));
     }
 
     @Then("the service responds with status code {int}")

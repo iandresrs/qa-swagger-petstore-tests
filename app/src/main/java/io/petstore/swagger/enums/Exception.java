@@ -5,7 +5,8 @@ public enum Exception {
     STATUS_CODE_ERROR("The service response code is not as expected."),
     ERROR_PET_NAME_MISMATCH("The pet name in the response does not match the expected name"),
     JSON_TEMPLATE_READ_ERROR("Error reading JSON template from path '%s'. \" +\r\n" +
-            "                        \"Possible causes: file not found, insufficient permissions, or invalid format.\"");
+            "                        \"Possible causes: file not found, insufficient permissions, or invalid format.\""),
+    PET_DATA_NOT_FOUND("Pet data not found for key:");
 
     private String exceptionText;
 

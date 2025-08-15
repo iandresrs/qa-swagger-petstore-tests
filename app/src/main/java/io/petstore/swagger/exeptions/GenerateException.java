@@ -7,6 +7,7 @@ public class GenerateException extends AssertionError{
     public static final String STATUS_CODE_ERROR = Exception.STATUS_CODE_ERROR.getExceptionText();
     public static final String ERROR_PET_NAME_MISMATCH = Exception.ERROR_PET_NAME_MISMATCH.getExceptionText();
     public static final String JSON_TEMPLATE_READ_ERROR = Exception.JSON_TEMPLATE_READ_ERROR.getExceptionText();
+    public static final String PET_DATA_NOT_FOUND = Exception.PET_DATA_NOT_FOUND.getExceptionText();
 
     public GenerateException(String message, Throwable cause){
         super(message,cause);
